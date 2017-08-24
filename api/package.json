@@ -10,5 +10,9 @@
   "bugs": {
     "url": "https://github.com/brendanreis/cs554-final-project/issues"
   },
-  "homepage": "https://github.com/brendanreis/cs554-final-project#readme"
+  "homepage": "https://github.com/brendanreis/cs554-final-project#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4"
+  }
 }
