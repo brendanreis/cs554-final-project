@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Final project for CS 554 - Web Programming II",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node worker.js"
   },
   "author": "Brendan Reis",
   "license": "ISC",
@@ -13,6 +13,7 @@
   "homepage": "https://github.com/brendanreis/cs554-final-project#readme",
   "dependencies": {
     "bluebird": "^3.5.0",
+    "node-redis-pubsub": "^1.0.3",
     "redis": "^2.8.0",
     "simple-enum": "^1.0.0"
   }

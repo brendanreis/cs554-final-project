@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Final project for CS 554 - Web Programming II",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "concurrently \"npm run api\" \"npm run db_worker\"",
+    "api": "cd api && npm start",
+    "db_worker": "cd db_worker && npm start",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -14,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/brendanreis/cs554-final-project/issues"
   },
-  "homepage": "https://github.com/brendanreis/cs554-final-project#readme"
+  "homepage": "https://github.com/brendanreis/cs554-final-project#readme",
+  "dependencies": {
+    "concurrently": "^3.5.0"
+  }
 }

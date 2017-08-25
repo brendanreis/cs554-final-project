@@ -138,10 +138,10 @@ let exportedMethods = {
         });
     },
 
+
     /*
         Entry Comment Methods
     */
-
     insertComment(structureId, entryId, author, text) {
         return structures().then((structureCollection) => {
             const newComment = {
