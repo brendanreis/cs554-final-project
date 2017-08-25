@@ -24,9 +24,10 @@ let exportedMethods = {
         });
     },
 
-    insertStructure(name, description, pageSize, fields, entries) {
+    insertStructure(id, name, description, pageSize, fields, entries) {
         return structures().then((structureCollection) => {
             const newStructure = {
+                _id: id,
                 name: name,
                 description: description,
                 pageSize: pageSize,
@@ -52,7 +53,7 @@ let exportedMethods = {
             if (structure.fields) updatedData.fields = structure.fields;
             if (structure.entries) updatedData.entries = structure.entries;
 
-            return taskCollection.updateOne({_id: id}, {$set: updatedData}).then(() => {
+            return structureCollection.updateOne({_id: id}, {$set: updatedData}).then(() => {
                 return this.getStructure(id);
             })
         });
@@ -83,8 +84,8 @@ let exportedMethods = {
                         throw "Structure not found";
                     return structure.entries;
                 }).then((entries) => {
-                    for(let i = 0; i < entries.length; i++) {
-                        if(entries[i].id === entryId) {
+                    for (let i = 0; i < entries.length; i++) {
+                        if (entries[i].id === entryId) {
                             return entries[i];
                         }
                     }
@@ -130,10 +131,33 @@ let exportedMethods = {
                 $set: {"entries.$": updatedData}
             };
 
-            return taskCollection.updateOne({_id: entryId, "entries.id": entryId}, updateCommand).then(() => {
-                return this.getStructure(structureId);
-            })
+            return structureCollection.updateOne({_id: structureId, "entries.id": entryId}, updateCommand)
+                .then(() => {
+                    return this.getStructure(structureId);
+                });
         });
+    },
+
+    /*
+        Entry Comment Methods
+    */
+
+    insertComment(structureId, entryId, author, text) {
+        return structures().then((structureCollection) => {
+            const newComment = {
+                author: author,
+                text: text
+            };
+
+            const updateCommand = {
+                $push: {"entries.$.comments": newComment}
+            };
+
+            return structureCollection.updateOne({_id: structureId, "entries.id": entryId}, updateCommand)
+                .then(() => {
+                    return this.getStructure(structureId);
+                });
+        })
     }
 
 };
