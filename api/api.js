@@ -28,7 +28,7 @@ app.get("/api/users/:slug", async (req, res) => {
             redis: redisConnection,
             eventName: "get-user",
             data: {
-                userSlug: req.params.slug
+                userID: req.params.slug
             }
         });
 
@@ -60,7 +60,7 @@ app.put("/api/users/:slug", async (req, res) => {
             redis: redisConnection,
             eventName: "put-user",
             data: {
-                userSlug: req.params.slug,
+                userID: req.params.slug,
                 user: req.body.user
             }
         });
@@ -94,7 +94,7 @@ app.get("/api/structures/:slug", async (req, res) => {
             redis: redisConnection,
             eventName: "get-structure",
             data: {
-                structureSlug: req.params.slug
+                structureID: req.params.slug
             }
         });
 
@@ -126,7 +126,7 @@ app.put("/api/structures/:slug", async (req, res) => {
             redis: redisConnection,
             eventName: "put-structure",
             data: {
-                structureSlug: req.params.slug,
+                structureID: req.params.slug,
                 structure: req.body.structure
             }
         });
@@ -147,7 +147,8 @@ app.get("/api/structures/:slug/entries", async (req, res) => {
             redis: redisConnection,
             eventName: "get-entries",
             data: {
-                structureSlug: req.params.slug
+                structureID: req.params.slug,
+                entryID: req.params.entryslug
             }
         });
 
@@ -163,8 +164,8 @@ app.get("/api/structures/:slug/:entryslug", async (req, res) => {
             redis: redisConnection,
             eventName: "get-entry",
             data: {
-                structureSlug: req.params.slug,
-                entrySlug: req.params.entryslug
+                structureID: req.params.slug,
+                entryID: req.params.entryslug
             }
         });
 
@@ -197,8 +198,8 @@ app.put("/api/structures/:slug/:entryslug", async (req, res) => {
             redis: redisConnection,
             eventName: "put-entry",
             data: {
-                structureSlug: req.params.slug,
-                entrySlug: req.params.entryslug,
+                structureID: req.params.slug,
+                entryID: req.params.entryslug,
                 entry: req.body.entry
             }
         });

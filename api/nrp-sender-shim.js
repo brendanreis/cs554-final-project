@@ -28,14 +28,14 @@ const sendMessage = (messageConfig = defaultMessageConfig) => {
 
         if (settings.expectsResponse) {
             let successEventName = `${eventName}:success:${messageId}`;
-            let failedEventName = `${eventName}:failed:${messageId}`;
+            let failureEventName = `${eventName}:failure:${messageId}`;
 
             let success = redisConnection.on(successEventName, (response, channel) => {
                 fulfill(response.data);
                 endMessageLifeCycle();
             });
 
-            let error = redisConnection.on(failedEventName, (response, channel) => {
+            let error = redisConnection.on(failureEventName, (response, channel) => {
                 reject(response.data);
                 endMessageLifeCycle();
             });
