@@ -130,8 +130,8 @@ let exportedMethods = {
                 $set: {"entries.$": updatedData}
             };
 
-            return taskCollection.updateOne({_id: id, "entries.id":"entryId"}, updateCommand).then((result) => {
-                return this.getStructure(id);
+            return taskCollection.updateOne({_id: entryId, "entries.id": entryId}, updateCommand).then(() => {
+                return this.getStructure(structureId);
             })
         });
     }
