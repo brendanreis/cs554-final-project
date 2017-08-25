@@ -4,7 +4,11 @@ const bodyParser = require("body-parser");
 const redisConnection = require("./redis-connection");
 const nrpSender = require("./nrp-sender-shim");
 
-app.use(bodyParser.json);
+app.use(bodyParser.json());
+
+app.get("/api", async (req, res) => {
+    res.send("API Server");
+});
 
 /*
     Users
@@ -28,7 +32,7 @@ app.get("/api/users/:slug", async (req, res) => {
             redis: redisConnection,
             eventName: "get-user",
             data: {
-                userID: req.params.slug
+                userId: req.params.slug
             }
         });
 
@@ -60,7 +64,7 @@ app.put("/api/users/:slug", async (req, res) => {
             redis: redisConnection,
             eventName: "put-user",
             data: {
-                userID: req.params.slug,
+                userId: req.params.slug,
                 user: req.body.user
             }
         });
@@ -77,6 +81,7 @@ app.put("/api/users/:slug", async (req, res) => {
  */
 app.get("/api/structures", async (req, res) => {
     try {
+        console.log("API server received request");
         let response = await nrpSender.sendMessage({
             redis: redisConnection,
             eventName: "get-structures"
@@ -94,7 +99,7 @@ app.get("/api/structures/:slug", async (req, res) => {
             redis: redisConnection,
             eventName: "get-structure",
             data: {
-                structureID: req.params.slug
+                structureId: req.params.slug
             }
         });
 
@@ -126,7 +131,7 @@ app.put("/api/structures/:slug", async (req, res) => {
             redis: redisConnection,
             eventName: "put-structure",
             data: {
-                structureID: req.params.slug,
+                structureId: req.params.slug,
                 structure: req.body.structure
             }
         });
@@ -147,8 +152,7 @@ app.get("/api/structures/:slug/entries", async (req, res) => {
             redis: redisConnection,
             eventName: "get-entries",
             data: {
-                structureID: req.params.slug,
-                entryID: req.params.entryslug
+                structureId: req.params.slug
             }
         });
 
@@ -164,8 +168,8 @@ app.get("/api/structures/:slug/:entryslug", async (req, res) => {
             redis: redisConnection,
             eventName: "get-entry",
             data: {
-                structureID: req.params.slug,
-                entryID: req.params.entryslug
+                structureId: req.params.slug,
+                entryId: req.params.entryslug
             }
         });
 
@@ -181,6 +185,7 @@ app.post("/api/structures/:slug", async (req, res) => {
             redis: redisConnection,
             eventName: "post-entry",
             data: {
+                structureId: req.params.slug,
                 entry: req.body.entry
             }
         });
@@ -198,8 +203,8 @@ app.put("/api/structures/:slug/:entryslug", async (req, res) => {
             redis: redisConnection,
             eventName: "put-entry",
             data: {
-                structureID: req.params.slug,
-                entryID: req.params.entryslug,
+                structureId: req.params.slug,
+                entryId: req.params.entryslug,
                 entry: req.body.entry
             }
         });
@@ -211,6 +216,26 @@ app.put("/api/structures/:slug/:entryslug", async (req, res) => {
 });
 
 
+/*
+    Structure Entry Comments
+ */
+app.post("/api/structures/:slug/:entryslug/comments", async (req, res) => {
+    try {
+        const response = await nrpSender.sendMessage({
+            redis: redisConnection,
+            eventName: "post-comment",
+            data: {
+                structureId: req.params.slug,
+                entryId: req.params.entryslug,
+                comment: req.body.comment
+            }
+        })
+    } catch(e) {
+        res.json({error: e.message});
+    }
+});
+
+
 app.listen(3001, () => {
-    console.log("API server running on http://localhost:3001");
+    console.log("API server is now running on http://localhost:3001");
 });

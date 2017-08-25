@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Final project for CS 554 - Web Programming II",
   "scripts": {
-    "start": "concurrently \"npm run api\" \"npm run db_worker\"",
+    "start": "concurrently \"npm run api\" \"npm run db_worker\" \"npm run spa\"",
     "api": "cd api && npm start",
     "db_worker": "cd db_worker && npm start",
+    "spa": "cd spa && npm start",
     "lint": "eslint ."
   },
   "repository": {

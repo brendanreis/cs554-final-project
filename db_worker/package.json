@@ -13,6 +13,7 @@
   "homepage": "https://github.com/brendanreis/cs554-final-project#readme",
   "dependencies": {
     "bluebird": "^3.5.0",
+    "mongodb": "^2.2.31",
     "node-redis-pubsub": "^1.0.3",
     "redis": "^2.8.0",
     "simple-enum": "^1.0.0"
