@@ -8,13 +8,13 @@ class StructureList extends React.Component {
 
         this.state = {
             adminMode: props.adminMode,
-            structureList: undefined
+            structureList: []
         }
     }
 
     async componentWillMount() {
         console.log("In componentWillMount");
-        this.state.structureList = await ApiClient.sendRequest("structures", "GET");
+        this.state.structureList = await ApiClient.sendRequest("structures", "GET", null);
     }
 
     render() {

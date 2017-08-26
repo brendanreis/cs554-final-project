@@ -54,7 +54,7 @@ redisConnection.on('*:request:*', async (message, channel) => {
             case "post-structure": {
                 const structure = message.data.structure;
                 response = await structures.insertStructure(structure._id, structure.name, structure.description,
-                    structure.pageSize, structure.fields, structure.entries);
+                    structure.pageSize, structure.fields, []);
                 break;
             }
             case "put-structure": {
@@ -73,7 +73,7 @@ redisConnection.on('*:request:*', async (message, channel) => {
             case "post-entry": {
                 const entry = message.data.entry;
                 response = await structures.insertEntry(message.data.structureId, entry.id, entry.title, entry.blurb,
-                    entry.author, entry.createdDate, entry.fields, entry.comments);
+                    entry.author, entry.createdDate, entry.fields, []);
                 break;
             }
             case "put-entry": {
