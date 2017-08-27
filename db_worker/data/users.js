@@ -23,11 +23,14 @@ let exportedMethods = {
         });
     },
 
-    insertUser(name, isAdmin) {
+    insertUser(name, isAdmin, signupDate, bio, favorites) {
       return users().then((userCollection) => {
           let newUser = {
               name: name,
-              isAdmin: isAdmin
+              isAdmin: isAdmin,
+              signupDate: signupDate,
+              bio: bio,
+              favorites: favorites
           };
 
           return userCollection.insertOne(newUser).then((newInsertInfo) => {
@@ -44,8 +47,11 @@ let exportedMethods = {
 
             if (user.name) updatedData.name = user.name;
             if (user.isAdmin) updatedData.isAdmin = user.isAdmin;
+            if (user.signupDate) updatedData.signupDate = user.signupDate;
+            if (user.bio) updatedData.bio = user.bio;
+            if (user.favorites) updatedData.favorites = user.favorites;
 
-            return taskCollection.updateOne({_id: id}, {$set: updatedData}).then((result) => {
+            return userCollection.updateOne({_id: id}, {$set: updatedData}).then((result) => {
                 return this.getUser(id);
             })
         })

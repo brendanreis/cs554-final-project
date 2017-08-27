@@ -35,7 +35,7 @@ redisConnection.on('*:request:*', async (message, channel) => {
             }
             case "post-user": {
                 const user = message.data.user;
-                response = await users.insertUser(user.name, user.isAdmin);
+                response = await users.insertUser(user.name, user.isAdmin, user.signupDate, user.bio, user.favorites);
                 break;
             }
             case "put-user": {

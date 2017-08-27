@@ -16,7 +16,6 @@ class StructureList extends React.Component {
     }
 
     async componentWillMount() {
-        console.log("In componentWillMount");
         const response = await ApiClient.sendRequest("structures", "GET", null);
         this.setState({
             structureList: response.response

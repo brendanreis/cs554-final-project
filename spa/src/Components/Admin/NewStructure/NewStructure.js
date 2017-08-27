@@ -5,24 +5,40 @@ import ApiClient from '../../ApiClient/ApiClient';
 
 const enums = require("../../../enums");
 
+const newStructureInitialState = {
+    apiResponse: "",
+    name: "",
+    slug: "",
+    description: "",
+    pageSize: "",
+    currentField: enums.fields.SMALL_TEXT,
+    fields: []
+};
+
 class NewStructure extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            apiResponse: "",
-            name: "",
-            slug: "",
-            description: "",
-            pageSize: "",
-            currentField: enums.fields.SMALL_TEXT,
-            fields: []
-        };
+
+        this.state = newStructureInitialState;
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.addField = this.addField.bind(this);
         this.clearFields = this.clearFields.bind(this);
         this.handleChangeCurrentField = this.handleChangeCurrentField.bind(this);
+
+        if (props.params.slug === "new") {
+            this.state = newStructureInitialState;
+        }
+    }
+
+    async componentWillMount() {
+        if (this.props.params.slug !== "new") {
+            const response = await ApiClient.sendRequest(`structures/${this.props.params.slug}`, "GET", null);
+            const structure = response.response;
+            structure.entries = undefined;
+            this.setState(structure);
+        }
     }
 
     handleInputChange(event) {
@@ -38,17 +54,21 @@ class NewStructure extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault();
-        this.state.apiResponse = await ApiClient.sendRequest("structures", "POST",
-            JSON.stringify({
-                structure: {
-                    name: this.state.name,
-                    _id: this.state.slug,
-                    description: this.state.description,
-                    pageSize: this.state.pageSize,
-                    fields: this.state.fields,
-                }
-            })
-        );
+        const body = JSON.stringify({
+            structure: {
+                name: this.state.name,
+                _id: this.state.slug,
+                description: this.state.description,
+                pageSize: this.state.pageSize,
+                fields: this.state.fields,
+            }
+        });
+        if (this.props.params.slug === "new") {
+            this.state.apiResponse = await ApiClient.sendRequest("structures", enums.restMethods.POST, body);
+            this.setState(newStructureInitialState);
+        } else {
+            this.state.apiResponse = await ApiClient.sendRequest(`structures/${body.structure._id}`, enums.restMethods.PUT, body);
+        }
     }
 
     handleChangeCurrentField(newField) {

@@ -18,7 +18,7 @@ class Admin extends React.Component {
                     </nav>
                 </div>
                 <div>
-                    <Route path="/admin/structures/new" component={NewStructure} />
+                    <Route path="/admin/structures/:slug" component={NewStructure} />
                 </div>
             </div>
         );

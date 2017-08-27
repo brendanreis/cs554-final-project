@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import Home from '../Home/Home';
+import Users from '../Users/Users';
 import Admin from '../Admin/Admin';
 
 class App extends React.Component {
@@ -18,7 +19,7 @@ class App extends React.Component {
                         <nav>
                             <ul>
                                 <li><Link to="/">Home</Link></li>
-                                {/*<li><Link to="/users">Users</Link></li>*/}
+                                <li><Link to="/users">Users</Link></li>
                                 <li><Link to="/admin">Admin Panel</Link></li>
                             </ul>
                         </nav>
@@ -26,7 +27,7 @@ class App extends React.Component {
                     </div>
                     <div className="App-body">
                         <Route exact path="/" component={Home} />
-                        {/*<Route exact path="/users" component={Users} />*/}
+                        <Route exact path="/users" component={Users} />
                         <Route path="/admin" component={Admin} />
                     </div>
                 </div>

@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Final project for CS 554 - Web Programming II",
   "scripts": {
-    "start": "node worker.js"
+    "start": "node worker.js",
+    "seed_db": "node seed_db.js"
   },
   "author": "Brendan Reis",
   "license": "ISC",
