@@ -7,7 +7,8 @@
     "api": "cd api && npm start",
     "db_worker": "cd db_worker && npm start",
     "spa": "cd spa && npm start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "drop_db": "node drop_db.js"
   },
   "repository": {
     "type": "git",
