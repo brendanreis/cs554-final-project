@@ -61,11 +61,10 @@ class Users extends React.Component {
             }
         }
 
-
         return (
             <li key={index}>
                 <div>{user.name}</div>
-                <div>{user.signupDate.}</div>
+                <div>{user.signupDate}</div>
                 <div>{user.bio}</div>
                 <div>{Object.keys(favorites).map((key, index) =>
                     <div key={index}>
