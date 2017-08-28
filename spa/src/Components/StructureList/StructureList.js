@@ -1,4 +1,7 @@
 import React from 'react';
+import {
+    Link
+} from 'react-router-dom';
 import ApiClient from '../ApiClient/ApiClient';
 
 class StructureList extends React.Component {
@@ -11,7 +14,6 @@ class StructureList extends React.Component {
             structureList: []
         };
 
-        this.editStructure = this.editStructure.bind(this);
         // this.deleteStructure = this.deleteStructure.bind(this);
     }
 
@@ -22,28 +24,23 @@ class StructureList extends React.Component {
         });
     }
 
-    editStructure(event) {
-        event.preventDefault();
-
-        console.log(event.target.value);
-    }
-
     render() {
         let structureListItems = "";
         if (true) {
             structureListItems = this.state.structureList.map((structure, index) =>
                 <li key={structure._id}>
-                    <div>{structure.name}</div>
+                    <div><Link to={"/:structure".replace(":structure", structure._id)}>{structure.name}</Link></div>
                     <div>Entries: {structure.entries ? structure.entries.length : 0}</div>
                     <div>{structure.description}</div>
-                    <input type="button" value="Edit" onClick={this.editStructure}/>
-                    <input type="button" value="Delete"/>
+                    <Link to={`/admin/structures/${structure._id}`}><button type="button">Edit</button></Link>
+                    <button type="button">Delete</button>
+                    <Link to={`/admin/structures/${structure._id}/new`}><button type="button">Add Entry</button></Link>
                 </li>
             );
         } else {
             structureListItems = this.state.structureList.map((structure, index) =>
                 <li key={structure._id}>
-                    <div>{structure.name}</div>
+                    <div><Link to={"/:structure".replace(":structure", structure._id)}>{structure.name}</Link></div>
                     <div>Entries: {structure.entries ? structure.entries.length : 0}</div>
                     <div>{structure.description}</div>
                 </li>

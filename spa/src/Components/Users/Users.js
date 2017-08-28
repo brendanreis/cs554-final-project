@@ -7,6 +7,7 @@ class Users extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            adminMode: props.adminMode,
             users: [],
             userListItems: ""
         }
@@ -45,8 +46,7 @@ class Users extends React.Component {
             );
         }
 
-        const favoriteEntries = await Promise.all(pendingFavoriteEntries);
-        const favoriteEntryStructures = await Promise.all(pendingFavoriteEntryStructures);
+        const favoriteEntries = await Promise.all(pendingFavoriteEntries);const favoriteEntryStructures = await Promise.all(pendingFavoriteEntryStructures);
 
         const favorites = {};
 

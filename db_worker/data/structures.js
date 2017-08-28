@@ -4,7 +4,7 @@ const microEnum = require("simple-enum");
 
 let exportedMethods = {
     /*
-        Structure Methods
+        StructureEntries Methods
      */
     getStructures() {
         return structures().then((structureCollection) => {
@@ -18,7 +18,7 @@ let exportedMethods = {
                 .findOne({_id: id})
                 .then((structure) => {
                     if (!structure)
-                        throw "Structure not found";
+                        throw "StructureEntries not found";
                     return structure;
                 });
         });
@@ -61,7 +61,7 @@ let exportedMethods = {
 
 
     /*
-        Structure Entry Methods
+        StructureEntries Entry Methods
     */
     getEntries(structureId) {
         return structures().then((structureCollection) => {
@@ -69,7 +69,7 @@ let exportedMethods = {
                 .findOne({_id: structureId})
                 .then((structure) => {
                     if (!structure)
-                        throw "Structure not found";
+                        throw "StructureEntries not found";
                     return structure.entries;
                 });
         });
@@ -81,7 +81,7 @@ let exportedMethods = {
                 .findOne({_id: structureId})
                 .then((structure) => {
                     if (!structure)
-                        throw "Structure not found";
+                        throw "StructureEntries not found";
                     return structure.entries;
                 }).then((entries) => {
                     for (let i = 0; i < entries.length; i++) {
@@ -94,7 +94,7 @@ let exportedMethods = {
         });
     },
 
-    insertEntry(structureId, entryId, title, blurb, author, createdDate, fields, comments) {
+    insertEntry(structureId, entryId, title, blurb, author, createdDate, fields, values, comments) {
         return structures().then((structureCollection) => {
             const newEntry = {
                 id: entryId,
@@ -103,6 +103,7 @@ let exportedMethods = {
                 author: author,
                 createdDate: createdDate,
                 fields: fields,
+                values: values,
                 comments: comments
             };
 
@@ -125,6 +126,7 @@ let exportedMethods = {
             if (structure.author) updatedData.author = structure.author;
             if (structure.createdDate) updatedData.createdDate = structure.createdDate;
             if (structure.fields) updatedData.fields = structure.fields;
+            if (structure.values) updatedData.values = structure.values;
             if (structure.comments) updatedData.comments = structure.comments;
 
             const updateCommand = {

@@ -1,6 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
+import getSlug from 'speakingurl';
 import ApiClient from '../../ApiClient/ApiClient';
 
 const enums = require("../../../enums");
@@ -8,11 +9,12 @@ const enums = require("../../../enums");
 const newStructureInitialState = {
     apiResponse: "",
     name: "",
-    slug: "",
+    _id: "",
     description: "",
     pageSize: "",
     currentField: enums.fields.SMALL_TEXT,
-    fields: []
+    fields: [],
+    slugPreview: ""
 };
 
 class NewStructure extends React.Component {
@@ -27,14 +29,14 @@ class NewStructure extends React.Component {
         this.clearFields = this.clearFields.bind(this);
         this.handleChangeCurrentField = this.handleChangeCurrentField.bind(this);
 
-        if (props.params.slug === "new") {
+        if (props.match.params.slug === "new") {
             this.state = newStructureInitialState;
         }
     }
 
     async componentWillMount() {
-        if (this.props.params.slug !== "new") {
-            const response = await ApiClient.sendRequest(`structures/${this.props.params.slug}`, "GET", null);
+        if (this.props.match.params.slug !== "new") {
+            const response = await ApiClient.sendRequest(`structures/${this.props.match.params.slug}`, "GET", null);
             const structure = response.response;
             structure.entries = undefined;
             this.setState(structure);
@@ -44,7 +46,15 @@ class NewStructure extends React.Component {
     handleInputChange(event) {
         const target = event.target;
         const name = target.name;
-        const value = target.value;
+        let value = target.value;
+
+        if (name === "_id") {
+            const slugPreview = getSlug(value);
+            console.log(slugPreview);
+            this.setState({
+                slugPreview: slugPreview
+            });
+        }
 
         this.setState({
             [name]: value
@@ -57,13 +67,13 @@ class NewStructure extends React.Component {
         const body = JSON.stringify({
             structure: {
                 name: this.state.name,
-                _id: this.state.slug,
+                _id: this.state.slugPreview,
                 description: this.state.description,
                 pageSize: this.state.pageSize,
                 fields: this.state.fields,
             }
         });
-        if (this.props.params.slug === "new") {
+        if (this.props.match.params.slug === "new") {
             this.state.apiResponse = await ApiClient.sendRequest("structures", enums.restMethods.POST, body);
             this.setState(newStructureInitialState);
         } else {
@@ -124,7 +134,8 @@ class NewStructure extends React.Component {
                     </label>
                     <label>
                         Slug:
-                        <input name="slug" type="text" value={this.state.slug} onChange={this.handleInputChange}/>
+                        <input name="_id" type="text" value={this.state._id} onChange={this.handleInputChange}/>
+                        <div>{this.state.slugPreview}</div>
                     </label>
                     <label>
                         Description:

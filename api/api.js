@@ -144,7 +144,7 @@ app.put("/api/structures/:slug", async (req, res) => {
 
 
 /*
-    Structure Entries
+    StructureEntries Entries
  */
 app.get("/api/structures/:slug/entries", async (req, res) => {
     try {
@@ -217,7 +217,7 @@ app.put("/api/structures/:slug/:entryslug", async (req, res) => {
 
 
 /*
-    Structure Entry Comments
+    StructureEntries Entry Comments
  */
 app.post("/api/structures/:slug/:entryslug/comments", async (req, res) => {
     try {
